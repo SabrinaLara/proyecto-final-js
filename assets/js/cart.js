@@ -184,7 +184,7 @@ const buttonAction = e => {
     e.stopPropagation();
 };
 
-//Tuve algunos problemas para pasar todo a jquery, en algunas como querySelector sobre todo,
+//Tuve algunos problemas para pasar a jquery, en algunas como querySelector sobre todo,
 //algunas funciones de javascript son las más idóneas para su funcionamiento
 
 
