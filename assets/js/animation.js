@@ -13,6 +13,7 @@ $(document).ready(function(){
 //Animación del fondo del título
 const alto = document.body.scrollHeight - window.innerHeight;
 const fondo = document.getElementById("fondo");
+// const fondo = $("#fondo")[0]; Intenté hacerlo con jquery pero no lo tomaba
 
 window.onscroll = () => {
     const anchoFondo = (window.pageYOffset / alto) * 300;

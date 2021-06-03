@@ -80,10 +80,10 @@ const drawCards = data => {
             templateCard.querySelector("img").setAttribute("src", product.thumbnailUrl);
             templateCard.querySelector(".btn-dark").dataset.id = product.id;
             const clone = templateCard.cloneNode(true);
-            fragment.appendChild(clone);
+            $(fragment).append(clone);
     })
     //para evitar el reflow, ya que se guarda el fragment en la memoria volátil 
-    cards.appendChild(fragment);
+    $(cards).append(fragment);
 }
 
 //Captura todos los elementos, y detecta todos los button btn-dark con solo un .click. 
@@ -126,10 +126,10 @@ const drawCart = () => {
         templateCarrito.querySelector("span").textContent = product.cantidad * product.precio;
 
         const clone = templateCarrito.cloneNode(true);
-        fragment.appendChild(clone);
+        $(fragment).append(clone);
 
     });
-    items.appendChild(fragment);
+    $(items).append(fragment);
 
     drawFooter();
     //Se guarda cart en el localStorage
@@ -152,15 +152,15 @@ const drawFooter = () => {
     templateFooter.querySelector("span").textContent = porPrecio;
 
     const clone = templateFooter.cloneNode(true);
-    fragment.appendChild(clone);
-    footer.appendChild(fragment);
+    $(fragment).append(clone);
+    $(footer).append(fragment);
 
     //evento vaciar cart 
-    const buttonVaciar = document.getElementById("vaciar-cart");
-    buttonVaciar.addEventListener("click", () => {
+    const buttonVaciar = $("#vaciar-cart");
+    $(buttonVaciar).click(() => { 
         cart = {};
         drawCart ();
-    });
+    })
 };
 
 //Evento para disminuir y aumentar las cantidades
@@ -184,5 +184,7 @@ const buttonAction = e => {
     e.stopPropagation();
 };
 
+//Tuve algunos problemas para pasar todo a jquery, en algunas como querySelector sobre todo,
+//algunas funciones de javascript son las más idóneas para su funcionamiento
 
 
