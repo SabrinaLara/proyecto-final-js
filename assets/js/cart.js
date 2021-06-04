@@ -71,7 +71,7 @@ function fetchData() {
     });
 };
 
-// De los elem que vengan de los template card selecciona las etiquetas,
+// De los elementos que vengan de los template card selecciona las etiquetas,
 // y su textcontent va a ser igual al valor title del parámetro product.
 const drawCards = data => {
     data.forEach(product => {
@@ -81,10 +81,17 @@ const drawCards = data => {
             templateCard.querySelector(".btn-dark").dataset.id = product.id;
             const clone = templateCard.cloneNode(true);
             $(fragment).append(clone);
-    })
+
+            // templateCard.$("h5").textContent = product.title;
+            // templateCard.$("p").textContent = product.precio;
+            // templateCard.$("img").setAttribute("src", product.thumbnailUrl);
+            // templateCard.$(".btn-dark").dataset.id = product.id;
+            // const clone = templateCard.cloneNode(true);
+            // $(fragment).append(clone);
+    });
     //para evitar el reflow, ya que se guarda el fragment en la memoria volátil 
     $(cards).append(fragment);
-}
+};
 
 //Captura todos los elementos, y detecta todos los button btn-dark con solo un .click. 
 //Al hacer click la acción es agregar al cart, y genera la colección de objetos
@@ -104,12 +111,17 @@ const setCart = objeto => {
         title: objeto.querySelector("h5").textContent,
         precio: objeto.querySelector("p").textContent,
         cantidad: 1
+
+        // id: objeto.$(".btn-dark").dataset.id,
+        // title: objeto.$("h5").textContent,
+        // precio: objeto.$("p").textContent,
+        // cantidad: 1
     }
     //Aumentar la cantidad al dar click a añadir al cart
     if(cart.hasOwnProperty(product.id)) {
         product.cantidad = cart[product.id].cantidad + 1
     }
-    //spread operator
+    //Spread operator, se toman los valores de product y se insertan en cart
     cart[product.id] = {...product}
     drawCart();
 
@@ -124,6 +136,13 @@ const drawCart = () => {
         templateCarrito.querySelector(".btn-success").dataset.id = product.id;
         templateCarrito.querySelector(".btn-light").dataset.id = product.id;
         templateCarrito.querySelector("span").textContent = product.cantidad * product.precio;
+
+        // templateCarrito.$("th").textContent = product.id; 
+        // templateCarrito.$("td")[0].textContent = product.title;
+        // templateCarrito.$("td")[1].textContent = product.cantidad;
+        // templateCarrito.$(".btn-success").dataset.id = product.id;
+        // templateCarrito.$(".btn-light").dataset.id = product.id;
+        // templateCarrito.$("span").textContent = product.cantidad * product.precio;
 
         const clone = templateCarrito.cloneNode(true);
         $(fragment).append(clone);
@@ -145,11 +164,14 @@ const drawFooter = () => {
     }
     //la funcion reduce para sumar las cantidades, 
     //y el acumulador por cada iteración va a acumular lo que se haga como suma
-    const sumaCantidad = Object.values(cart).reduce((acc, {cantidad} ) => acc + cantidad,0);
-    const porPrecio = Object.values(cart).reduce((acc, {cantidad, precio}) => acc + cantidad * precio,0);
+    const sumProducts = Object.values(cart).reduce((acc, {cantidad} ) => acc + cantidad,0);
+    const multiplyPrices = Object.values(cart).reduce((acc, {cantidad, precio}) => acc + cantidad * precio,0);
 
-    templateFooter.querySelectorAll("td")[0].textContent = sumaCantidad;
-    templateFooter.querySelector("span").textContent = porPrecio;
+    templateFooter.querySelectorAll("td")[0].textContent = sumProducts;
+    templateFooter.querySelector("span").textContent = multiplyPrices;
+
+    // templateFooter.$("td").textContent[0] = sumProducts;
+    // templateFooter.$("span").textContent[0] = multiplyPrices;
 
     const clone = templateFooter.cloneNode(true);
     $(fragment).append(clone);
@@ -160,7 +182,7 @@ const drawFooter = () => {
     $(buttonVaciar).click(() => { 
         cart = {};
         drawCart ();
-    })
+    });
 };
 
 //Evento para disminuir y aumentar las cantidades
